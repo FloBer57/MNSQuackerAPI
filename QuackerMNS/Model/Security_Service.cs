@@ -16,12 +16,17 @@ namespace QuackerMNS.Model
 
         public static string GenerateToken(int size = 32)
         {
-            using (var randomNumberGenerator = new RNGCryptoServiceProvider())
+            using (var randomNumberGenerator = RandomNumberGenerator.Create())
             {
                 var tokenBytes = new byte[size];
                 randomNumberGenerator.GetBytes(tokenBytes);
                 return Convert.ToBase64String(tokenBytes);
             }
+        }
+
+        public static bool VerifyPassword(string password, string hashPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashPassword);
         }
     }
 }
