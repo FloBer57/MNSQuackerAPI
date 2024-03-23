@@ -1,4 +1,88 @@
-﻿using QuackerMNS.Database;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QuackerMNS.Model;
+using QuackerMNS.DTO.request;
+using QuackerMNS.DTO.response;
+using System.Data;
+using QuackerMNS.infrastructure.Database;
+
+namespace QuackerMNS.Controllers
+{
+    [Route("api/[Controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public UsersController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+
+        // Create api/user
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] CreatePersonRequestDTO createUserRequestDTO)
+        {
+            Users user = new Users
+            {
+                FirstName = createUserRequestDTO.Firstname,
+                LastName = createUserRequestDTO.LastName,
+                Email = createUserRequestDTO.Email,
+                PhoneNumber = createUserRequestDTO.PhoneNumber,
+            };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var messageDto = new CreatePersonResponseDTO(user);
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, new { user, message = messageDto.Message });
+        }
+
+
+        // GET: api/user
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            List<Users> users = await _context.Users.ToListAsync();
+            string message = $"Nombre total d'utilisateurs récupérés : {users.Count}.";
+            return Ok(new { Users = users, Message = message });
+        }
+
+        // GET: api/user/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            Users? user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound($"Utilisateur avec l'ID {id} non trouvé.");
+            }
+            
+            string message = $"L'utilisateur avec l'ID {id} a été récupéré avec succès.";
+            return Ok(new { User = user, Message = message });
+        }
+
+        // UPDATE: api/user:change
+        [HttpPost("{id}/change-password")]
+        public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordRequestDTO changePasswordDto)
+        {
+            Users user = await _context.Users.FindAsync(id);
+            user.Password = changePasswordDto.NewPassword;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
+        }
+    }
+}
+
+
+
+
+
+
+
+/* using QuackerMNS.Database;
 using QuackerMNS.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -115,7 +199,6 @@ namespace QuackerMNS.Controllers
         }
 
         // UPDATE //
-
 
         [HttpPost("{id}/change-password")]
         public IActionResult ChangePasswordById(int id, [FromBody] ChangePasswordRequestDTO changePasswordDto)
@@ -249,9 +332,9 @@ namespace QuackerMNS.Controllers
             window.location.href = '/login';  // Rediriger l'utilisateur vers la page de connexion
         })
         .catch(error => console.error('Erreur lors de la déconnexion:', error));
-        } */
+        } 
 
-        private User CreateUserFromDataRow(DataRow row)
+private User CreateUserFromDataRow(DataRow row)
         {
             return new User
             {
@@ -271,4 +354,4 @@ namespace QuackerMNS.Controllers
             };
         }
     }
-}
+} */

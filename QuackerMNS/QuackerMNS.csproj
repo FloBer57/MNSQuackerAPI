@@ -16,14 +16,24 @@
 
   <ItemGroup>
     <Compile Remove="DTO\GetUserByIdDTO.cs" />
+    <Compile Remove="Model\ChannelUserRole.cs" />
+    <Compile Remove="Model\ChannelUserRoleXUsersXChannel.cs" />
+    <Compile Remove="Model\Users.cs" />
+    <Compile Remove="Model\UsersJobTitle.cs" />
+    <Compile Remove="Model\UsersRoles.cs" />
+    <Compile Remove="Model\UserStatut.cs" />
+    <Compile Remove="Model\UsersXChannel.cs" />
+    <Compile Remove="Model\UsersXNotification.cs" />
     <Compile Remove="WeatherForecast.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
 </Project>

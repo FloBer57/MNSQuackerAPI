@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QuackerMNS.DTO.request
 {
-    public class CreateUserRequestDTO
+    public class CreatePersonRequestDTO
     {
         [Required(ErrorMessage = "Le prénom est requis")]
         [StringLength(50, ErrorMessage = "Le prénom ne peut pas dépasser 100 caractères")]
-        public string FirstName { get; set; }
+        public string Firstname { get; set; }
 
         [Required(ErrorMessage = "Le nom de famille est requis")]
         [StringLength(50, ErrorMessage = "Le nom de famille ne peut pas dépasser 100 caractères")]

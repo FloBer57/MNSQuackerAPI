@@ -2,9 +2,12 @@
 {
     public class Channel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string PictureChannelPath { get; set; }
-        public int ChannelType { get; set; }
+        public int Channel_Id { get; set; }
+        public string Channel_Name { get; set; }
+        public string Channel_ImagePath { get; set; }
+        public int ChannelType_Id { get; set; }
+
+        // Clefs étrangères 
+        public virtual ChannelType ChannelType { get; set; }
     }
 }
